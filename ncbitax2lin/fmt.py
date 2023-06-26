@@ -79,7 +79,7 @@ def _convert_lineage_to_dict(lineage: Lineage) -> Dict[str, Union[int, str]]:
 def prepare_lineages_for_output(lineages: List[Lineage]) -> pd.DataFrame:
     """prepares lineages into a dataframe for writing to disk"""
 
-    with concurrent.futures.ProcessPoolExecutor() as executors:
+    with concurrent.futures.ProcessPoolExecutor(max_workers=2) as executors:
         out = executors.map(_convert_lineage_to_dict, lineages, chunksize=5000)
 
     df_out = pd.DataFrame(out)
